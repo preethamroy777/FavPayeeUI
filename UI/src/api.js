@@ -6,16 +6,16 @@ const STORAGE_KEYS = {
 }
 
 const defaultPayees = [
-  { id: 1, name: 'Société Générale London', account: 'GB29 NWBK 6016 1331 9268 19', bank: 'SG London', country: 'United Kingdom' },
-  { id: 2, name: 'SG Frankfurt Trade', account: 'DE12 5001 0517 5407 3249 04', bank: 'SG Frankfurt', country: 'Germany' },
-  { id: 3, name: 'SG Paris Corporate', account: 'FR76 3000 6000 0112 3456 7890 189', bank: 'Société Générale', country: 'France' },
-  { id: 4, name: 'Nordic Supply AS', account: 'NO93 8601 1117 947', bank: 'Nordea', country: 'Norway' },
-  { id: 5, name: 'Mediterranean Foods GmbH', account: 'DE89 3704 0044 0532 0130 00', bank: 'HypoVereinsbank', country: 'Germany' },
-  { id: 6, name: 'Lisbon Logistics', account: 'PT50 0002 0123 1234 5678 9015 4', bank: 'CGD', country: 'Portugal' },
-  { id: 7, name: 'Madrid Energy SA', account: 'ES79 2100 0813 6101 2345 6789', bank: 'Banco Santander', country: 'Spain' },
-  { id: 8, name: 'Stockholm Advisors', account: 'SE45 5000 0000 0583 9825 7466', bank: 'SEB', country: 'Sweden' },
-  { id: 9, name: 'Vienna Health Partners', account: 'AT61 1904 3002 3457 3201', bank: 'Erste Bank', country: 'Austria' },
-  { id: 10, name: 'Brussels Media Group', account: 'BE68 5390 0754 7034', bank: 'BNP Paribas Fortis', country: 'Belgium' },
+  { id: 1, name: 'Société Générale London', nickName: 'SG London', account: 'GB29 NWBK 6016 1331 9268 19', bank: 'SG London', country: 'United Kingdom' },
+  { id: 2, name: 'SG Frankfurt Trade', nickName: 'SG Frankfurt', account: 'DE12 5001 0517 5407 3249 04', bank: 'SG Frankfurt', country: 'Germany' },
+  { id: 3, name: 'SG Paris Corporate', nickName: 'SG Paris', account: 'FR76 3000 6000 0112 3456 7890 189', bank: 'Société Générale', country: 'France' },
+  { id: 4, name: 'Nordic Supply AS', nickName: 'Nordic', account: 'NO93 8601 1117 947', bank: 'Nordea', country: 'Norway' },
+  { id: 5, name: 'Mediterranean Foods GmbH', nickName: 'Med Foods', account: 'DE89 3704 0044 0532 0130 00', bank: 'HypoVereinsbank', country: 'Germany' },
+  { id: 6, name: 'Lisbon Logistics', nickName: 'LisLog', account: 'PT50 0002 0123 1234 5678 9015 4', bank: 'CGD', country: 'Portugal' },
+  { id: 7, name: 'Madrid Energy SA', nickName: 'Madrid Energy', account: 'ES79 2100 0813 6101 2345 6789', bank: 'Banco Santander', country: 'Spain' },
+  { id: 8, name: 'Stockholm Advisors', nickName: 'Stockholm', account: 'SE45 5000 0000 0583 9825 7466', bank: 'SEB', country: 'Sweden' },
+  { id: 9, name: 'Vienna Health Partners', nickName: 'Vienna Health', account: 'AT61 1904 3002 3457 3201', bank: 'Erste Bank', country: 'Austria' },
+  { id: 10, name: 'Brussels Media Group', nickName: 'Brussels Media', account: 'BE68 5390 0754 7034', bank: 'BNP Paribas Fortis', country: 'Belgium' },
 ]
 
 const mockAccounts = [
@@ -108,9 +108,9 @@ const adapter = async (config) => {
     const newPayee = {
       id: nextId,
       name: body.name,
+      nickName: body.nickName || body.name,
       account: body.account,
       bank: body.bank,
-      country: body.country,
     }
     mockState.payees.unshift(newPayee)
     if (mockState.payees.length > 20) {
