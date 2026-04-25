@@ -41,44 +41,35 @@ function DashboardPage() {
 
   const pageItems = favoritePayees.slice((page - 1) * pageSize, page * pageSize)
 
-  const toggleFavorite = async (id) => {
-    const response = await api.toggleFavorite(id)
-    setFavorites(response.favorites)
-  }
-
   return (
     <div className="space-y-8">
-      <section className="rounded-[32px] bg-white p-6 shadow-soft md:p-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-sg-red font-semibold">Dashboard</p>
-            <h1 className="mt-4 text-3xl font-semibold text-slate-950">Hello, {user?.name || 'valued client'}</h1>
-            <p className="mt-3 max-w-2xl text-sm text-slate-600">
-              💳 Enjoy exclusive rates on transfers to partner networks this month. Free shipping on all retail card orders.
-            </p>
+      <section className="grid gap-6 md:grid-cols-[1fr_auto]">
+        <div className="rounded-[32px] bg-white p-6 shadow-soft md:p-8">
+          <p className="text-sm uppercase tracking-[0.3em] text-sg-red font-semibold">Dashboard</p>
+          <h1 className="mt-4 text-3xl font-semibold text-slate-950">Hello, {user?.name || 'valued client'}</h1>
+          <p className="mt-3 max-w-2xl text-sm text-slate-600">
+            💳 Enjoy exclusive rates on transfers to partner networks this month. Free shipping on all retail card orders.
+          </p>
+        </div>
+
+        <div className="rounded-[32px] bg-gradient-to-br from-sg-red to-[#a10015] p-6 shadow-soft text-white md:p-8 min-w-[220px]">
+          <p className="text-sm uppercase tracking-[0.28em] font-semibold opacity-90">Total balance</p>
+          <div className="mt-6 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-4xl font-bold">{isBalanceHidden ? '€ XXX.XX' : currency.format(totalBalance)}</h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsBalanceHidden((prev) => !prev)}
+              className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold transition hover:bg-white/30"
+            >
+              {isBalanceHidden ? 'Show' : 'Hide'}
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1fr_1.2fr]">
-        <div className="space-y-4">
-          <div className="rounded-[32px] bg-gradient-to-br from-sg-red to-[#a10015] p-6 shadow-soft text-white md:p-8">
-            <p className="text-sm uppercase tracking-[0.28em] font-semibold opacity-90">Total balance</p>
-            <div className="mt-6 flex items-end justify-between gap-4">
-              <div>
-                <h2 className="text-4xl font-bold">{isBalanceHidden ? 'xxxx' : currency.format(totalBalance)}</h2>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsBalanceHidden((prev) => !prev)}
-                className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold transition hover:bg-white/30"
-              >
-                {isBalanceHidden ? 'Show' : 'Hide'}
-              </button>
-            </div>
-          </div>
-        </div>
-
+      <section>
         <div className="rounded-[32px] bg-gradient-to-br from-yellow-50 to-amber-50 p-6 shadow-soft border-2 border-sg-red/20 md:p-8">
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
@@ -92,25 +83,17 @@ function DashboardPage() {
             <table className="min-w-full text-left text-sm">
               <thead className="bg-slate-50 text-xs uppercase tracking-[0.2em] text-slate-500">
                 <tr>
-                  <th className="px-5 py-4">Payee</th>
+                  <th className="px-5 py-4">Nickname</th>
                   <th className="px-5 py-4">Bank</th>
-                  <th className="px-5 py-4 text-right">Action</th>
+                  <th className="px-5 py-4">IBAN</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
                 {pageItems.map((payee) => (
                   <tr key={payee.id} className="hover:bg-slate-50">
-                    <td className="px-5 py-4 font-semibold text-slate-950 text-sm truncate">{payee.name}</td>
+                    <td className="px-5 py-4 font-semibold text-slate-950 text-sm">{payee.nickName || payee.name}</td>
                     <td className="px-5 py-4 text-slate-600 text-xs">{payee.bank}</td>
-                    <td className="px-5 py-4 text-right">
-                      <button
-                        type="button"
-                        onClick={() => toggleFavorite(payee.id)}
-                        className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800 transition hover:bg-slate-200"
-                      >
-                        ✕
-                      </button>
-                    </td>
+                    <td className="px-5 py-4 text-slate-500 text-xs font-mono">{payee.account}</td>
                   </tr>
                 ))}
                 {pageItems.length === 0 && (
